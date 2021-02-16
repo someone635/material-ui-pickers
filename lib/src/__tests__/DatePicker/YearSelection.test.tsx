@@ -40,7 +40,7 @@ describe('YearSelection with shouldDisableYear', () => {
         date={utilsToUse.date('04-01-2017')}
         onChange={jest.fn()}
         shouldDisableYear={year => {
-          return !!year && year.getTime() === new Date('01-01-2015').getTime();
+          return year === 2015;
         }}
       />
     );

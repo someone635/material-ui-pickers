@@ -45,7 +45,7 @@ describe('MonthSelection with shouldDisableMonth', () => {
         minDate={new Date('03-01-2017')}
         maxDate={new Date('05-01-2017')}
         shouldDisableMonth={month => {
-          return month?.getTime() === new Date('04-01-2017').getTime();
+          return month.month === 3 && month.year === 2017;
         }}
         date={utilsToUse.date('04-01-2017')}
         onChange={jest.fn()}

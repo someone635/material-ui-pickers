@@ -13,7 +13,7 @@ export interface MonthSelectionProps {
   disablePast?: boolean | null | undefined;
   disableFuture?: boolean | null | undefined;
   onMonthChange?: (date: MaterialUiPickersDate) => void | Promise<void>;
-  shouldDisableMonth?: (date: MaterialUiPickersDate) => boolean;
+  shouldDisableMonth?: ({ month, year }: { month: number; year: number }) => boolean;
 }
 
 export const useStyles = makeStyles(
@@ -61,7 +61,8 @@ export const MonthSelection: React.FC<MonthSelectionProps> = ({
     return (
       isBeforeFirstEnabled ||
       isAfterLastEnabled ||
-      (!!shouldDisableMonth && shouldDisableMonth(utils.startOfMonth(month)))
+      (!!shouldDisableMonth &&
+        shouldDisableMonth({ month: utils.getMonth(month), year: utils.getYear(month) }))
     );
   };
 

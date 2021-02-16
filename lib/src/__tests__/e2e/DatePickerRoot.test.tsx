@@ -101,7 +101,7 @@ describe('e2e -- DatePicker views year and month', () => {
         value={utilsToUse.date('2018-01-01T00:00:00.000Z')}
         onChange={onChangeMock}
         shouldDisableMonth={month => {
-          return !!month && month.getTime() === new Date('2018-12-01').getTime();
+          return month.month === 11 && month.year === 2017;
         }}
         onMonthChange={onMonthChangeMock}
         openTo="month"
@@ -122,12 +122,13 @@ describe('e2e -- DatePicker views year and month', () => {
 
   it('Should not select disabled month', () => {
     expect(component.find('Month').length).toBe(12);
-    component
-      .find('Month')
-      .last()
-      .simulate('click');
 
-    expect(onMonthChangeMock).not.toHaveBeenCalled();
+    expect(
+      component
+        .find('Month')
+        .last()
+        .prop('disabled')
+    ).toEqual(true);
   });
 
   it('Should switch to year selection and back to month', () => {
@@ -160,7 +161,7 @@ describe('e2e -- DatePicker views year and month open from year', () => {
         views={['year', 'month']}
         openTo="year"
         shouldDisableYear={year => {
-          return !!year && year.getTime() === new Date('2100-01-01').getTime();
+          return year === 2099;
         }}
       />
     );
@@ -172,11 +173,12 @@ describe('e2e -- DatePicker views year and month open from year', () => {
 
   it('Should not select disabled year', () => {
     expect(component.find('Year').length).toBe(201);
-    component
-      .find('Year')
-      .last()
-      .simulate('click');
 
-    expect(onYearChangeMock).not.toHaveBeenCalled();
+    expect(
+      component
+        .find('Year')
+        .last()
+        .prop('disabled')
+    ).toEqual(true);
   });
 });

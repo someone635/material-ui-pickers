@@ -51,8 +51,8 @@ export interface BaseDatePickerProps extends OutterCalendarProps {
   animateYearScrolling?: boolean;
   /** Callback firing on year change @DateIOType */
   onYearChange?: (date: MaterialUiPickersDate) => void;
-  shouldDisableMonth?: (month: MaterialUiPickersDate) => boolean;
-  shouldDisableYear?: (year: MaterialUiPickersDate) => boolean;
+  shouldDisableMonth?: (month: { month: number; year: number }) => boolean;
+  shouldDisableYear?: (year: number) => boolean;
 }
 
 export interface DatePickerViewsProps extends BaseDatePickerProps {

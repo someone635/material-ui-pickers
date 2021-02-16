@@ -55,8 +55,8 @@ interface PickerProps extends PickerViewProps {
   date: MaterialUiPickersDate;
   orientation?: BasePickerProps['orientation'];
   onChange: (date: MaterialUiPickersDate, isFinish?: boolean) => void;
-  shouldDisableMonth?: (month: MaterialUiPickersDate) => boolean;
-  shouldDisableYear?: (year: MaterialUiPickersDate) => boolean;
+  shouldDisableMonth?: (month: { month: number; year: number }) => boolean;
+  shouldDisableYear?: (year: number) => boolean;
 }
 
 const useStyles = makeStyles(
