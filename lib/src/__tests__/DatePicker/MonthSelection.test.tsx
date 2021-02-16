@@ -35,3 +35,38 @@ describe('MonthSelection', () => {
     ]);
   });
 });
+
+describe('MonthSelection with shouldDisableMonth', () => {
+  let component: ReactWrapper<MonthSelectionProps>;
+
+  beforeEach(() => {
+    component = mount(
+      <MonthSelection
+        minDate={new Date('03-01-2017')}
+        maxDate={new Date('05-01-2017')}
+        shouldDisableMonth={month => {
+          return month?.getTime() === new Date('04-01-2017').getTime();
+        }}
+        date={utilsToUse.date('04-01-2017')}
+        onChange={jest.fn()}
+      />
+    );
+  });
+
+  it('Should render disabled months when month disabled by shouldDisableMonth', () => {
+    expect(component.find(Month).map(month => month.prop('disabled'))).toEqual([
+      true,
+      true,
+      false,
+      true,
+      false,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+    ]);
+  });
+});

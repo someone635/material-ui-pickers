@@ -13,6 +13,7 @@ export interface MonthSelectionProps {
   disablePast?: boolean | null | undefined;
   disableFuture?: boolean | null | undefined;
   onMonthChange?: (date: MaterialUiPickersDate) => void | Promise<void>;
+  shouldDisableMonth?: (date: MaterialUiPickersDate) => boolean;
 }
 
 export const useStyles = makeStyles(
@@ -35,12 +36,13 @@ export const MonthSelection: React.FC<MonthSelectionProps> = ({
   date,
   onMonthChange,
   onChange,
+  shouldDisableMonth,
 }) => {
   const utils = useUtils();
   const classes = useStyles();
   const currentMonth = utils.getMonth(date);
 
-  const shouldDisableMonth = (month: MaterialUiPickersDate) => {
+  const shouldDisableMonthFinal = (month: MaterialUiPickersDate) => {
     const now = utils.date();
     const utilMinDate = utils.date(minDate);
     const utilMaxDate = utils.date(maxDate);
@@ -56,7 +58,11 @@ export const MonthSelection: React.FC<MonthSelectionProps> = ({
     const isBeforeFirstEnabled = utils.isBefore(month, firstEnabledMonth);
     const isAfterLastEnabled = utils.isAfter(month, lastEnabledMonth);
 
-    return isBeforeFirstEnabled || isAfterLastEnabled;
+    return (
+      isBeforeFirstEnabled ||
+      isAfterLastEnabled ||
+      (!!shouldDisableMonth && shouldDisableMonth(utils.startOfMonth(month)))
+    );
   };
 
   const onMonthSelect = React.useCallback(
@@ -83,7 +89,7 @@ export const MonthSelection: React.FC<MonthSelectionProps> = ({
             value={monthNumber}
             selected={monthNumber === currentMonth}
             onSelect={onMonthSelect}
-            disabled={shouldDisableMonth(month)}
+            disabled={shouldDisableMonthFinal(month)}
           >
             {monthText}
           </Month>

@@ -55,6 +55,8 @@ interface PickerProps extends PickerViewProps {
   date: MaterialUiPickersDate;
   orientation?: BasePickerProps['orientation'];
   onChange: (date: MaterialUiPickersDate, isFinish?: boolean) => void;
+  shouldDisableMonth?: (month: MaterialUiPickersDate) => boolean;
+  shouldDisableYear?: (year: MaterialUiPickersDate) => boolean;
 }
 
 const useStyles = makeStyles(
@@ -92,6 +94,8 @@ export const Picker: React.FunctionComponent<PickerProps> = ({
   maxDate: unparsedMaxDate,
   ToolbarComponent,
   orientation,
+  shouldDisableMonth,
+  shouldDisableYear,
   ...rest
 }) => {
   const utils = useUtils();
@@ -128,6 +132,7 @@ export const Picker: React.FunctionComponent<PickerProps> = ({
             onChange={handleChangeAndOpenNext}
             minDate={minDate}
             maxDate={maxDate}
+            shouldDisableYear={shouldDisableYear}
           />
         )}
 
@@ -138,6 +143,7 @@ export const Picker: React.FunctionComponent<PickerProps> = ({
             onChange={handleChangeAndOpenNext}
             minDate={minDate}
             maxDate={maxDate}
+            shouldDisableMonth={shouldDisableMonth}
           />
         )}
 

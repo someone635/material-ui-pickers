@@ -100,6 +100,9 @@ describe('e2e -- DatePicker views year and month', () => {
         autoOk
         value={utilsToUse.date('2018-01-01T00:00:00.000Z')}
         onChange={onChangeMock}
+        shouldDisableMonth={month => {
+          return !!month && month.getTime() === new Date('2018-12-01').getTime();
+        }}
         onMonthChange={onMonthChangeMock}
         openTo="month"
         views={['year', 'month']}
@@ -115,6 +118,16 @@ describe('e2e -- DatePicker views year and month', () => {
       .simulate('click');
 
     expect(onMonthChangeMock).toHaveBeenCalled();
+  });
+
+  it('Should not select disabled month', () => {
+    expect(component.find('Month').length).toBe(12);
+    component
+      .find('Month')
+      .last()
+      .simulate('click');
+
+    expect(onMonthChangeMock).not.toHaveBeenCalled();
   });
 
   it('Should switch to year selection and back to month', () => {
@@ -133,6 +146,7 @@ describe('e2e -- DatePicker views year and month', () => {
 
 describe('e2e -- DatePicker views year and month open from year', () => {
   const onChangeMock = jest.fn();
+  const onYearChangeMock = jest.fn();
   let component: ReactWrapper<DatePickerProps>;
 
   beforeEach(() => {
@@ -142,13 +156,27 @@ describe('e2e -- DatePicker views year and month open from year', () => {
         autoOk
         value={utilsToUse.date('2018-01-01T00:00:00.000Z')}
         onChange={onChangeMock}
+        onYearChange={onYearChangeMock}
         views={['year', 'month']}
         openTo="year"
+        shouldDisableYear={year => {
+          return !!year && year.getTime() === new Date('2100-01-01').getTime();
+        }}
       />
     );
   });
 
   it('Should render year selection', () => {
     expect(component.find('Year').length).toBe(201);
+  });
+
+  it('Should not select disabled year', () => {
+    expect(component.find('Year').length).toBe(201);
+    component
+      .find('Year')
+      .last()
+      .simulate('click');
+
+    expect(onYearChangeMock).not.toHaveBeenCalled();
   });
 });

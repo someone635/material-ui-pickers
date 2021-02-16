@@ -15,6 +15,7 @@ export interface YearSelectionProps {
   disableFuture?: boolean | null | undefined;
   animateYearScrolling?: boolean | null | undefined;
   onYearChange?: (date: MaterialUiPickersDate) => void;
+  shouldDisableYear?: (date: MaterialUiPickersDate) => boolean;
 }
 
 export const useStyles = makeStyles(
@@ -36,11 +37,12 @@ export const YearSelection: React.FC<YearSelectionProps> = ({
   disablePast,
   disableFuture,
   animateYearScrolling,
+  shouldDisableYear,
 }) => {
   const utils = useUtils();
   const classes = useStyles();
   const currentVariant = React.useContext(VariantContext);
-  const selectedYearRef = React.useRef<HTMLElement>(null);
+  const selectedYearRef = React.useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
     if (selectedYearRef.current && selectedYearRef.current.scrollIntoView) {
@@ -84,7 +86,8 @@ export const YearSelection: React.FC<YearSelectionProps> = ({
             ref={selected ? selectedYearRef : undefined}
             disabled={Boolean(
               (disablePast && utils.isBeforeYear(year, utils.date())) ||
-                (disableFuture && utils.isAfterYear(year, utils.date()))
+                (disableFuture && utils.isAfterYear(year, utils.date())) ||
+                (!!shouldDisableYear && shouldDisableYear(utils.date(`01-01-${yearNumber}`)))
             )}
           >
             {utils.getYearText(year)}
