@@ -18,7 +18,7 @@
   "scripts": {
     "start": "yarn dev",
     "dev": "yarn workspace docs dev",
-    "prepare": "yarn workspace @material-ui/pickers build",
+    "prepare": "yarn workspace @material-ui/pickers build && rm package.json && rm README.md && rm LICENSE",
     "release": "yarn workspace @material-ui/pickers release && git push && git push --tags",
     "e2e:open": "cypress open",
     "e2e:run": "cypress run",
