@@ -2,7 +2,7 @@
   "name": "@material-ui/pickers",
   "version": "2.0.0",
   "description": "Material-ui pickers root package",
-  "main": "index.js",
+  "main": "./lib/build/index.js",
   "files": [
     "lib/build"
   ],
@@ -18,7 +18,7 @@
   "scripts": {
     "start": "yarn dev",
     "dev": "yarn workspace docs dev",
-    "prepare": "yarn workspace @material-ui/pickers build && rm package.json && rm README.md && rm LICENSE",
+    "prepare": "yarn workspace @material-ui/pickers build",
     "release": "yarn workspace @material-ui/pickers release && git push && git push --tags",
     "e2e:open": "cypress open",
     "e2e:run": "cypress run",
