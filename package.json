@@ -4,7 +4,7 @@
   "description": "Material-ui pickers root package",
   "main": "index.js",
   "files": [
-    "lib/build/*"
+    "lib/build"
   ],
   "directories": {
     "doc": "docs",
